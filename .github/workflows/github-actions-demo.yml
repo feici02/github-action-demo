@@ -14,32 +14,65 @@ jobs:
           pwd
           ls ${{ github.workspace }}
 
-  build_rust:
+  build_taosx_and_agent:
     runs-on: ubuntu-latest
     needs: check_out
     steps:
-      - name: List files in the repository
+      - name: Build taosx and taosx-agent
         run: |
           pwd
           ls ${{ github.workspace }}
-          echo "build rust..."
 
-  build_java:
+  build_opc:
     runs-on: ubuntu-latest
     needs: check_out
     steps:
-      - name: List files in the repository
+      - name: Build opc
         run: |
           pwd
           ls ${{ github.workspace }}
-          echo "build java..."
+
+  build_mqtt:
+    runs-on: ubuntu-latest
+    needs: check_out
+    steps:
+      - name: Build mqtt
+        run: |
+          pwd
+          ls ${{ github.workspace }}
+
+  build_influxdb:
+    runs-on: ubuntu-latest
+    needs: check_out
+    steps:
+      - name: Build influxdb
+        run: |
+          pwd
+          ls ${{ github.workspace }}
+
+  build_opentsdb:
+    runs-on: ubuntu-latest
+    needs: check_out
+    steps:
+      - name: Build opentsdb
+        run: |
+          pwd
+          ls ${{ github.workspace }}
 
   deploy:
     runs-on: ubuntu-latest
-    needs: [build_rust, build_java]
+    needs: [build_taosx_and_agent, build_opc, build_mqtt, build_influxdb, build_opentsdb]
     steps:
-      - name: List files in the repository
+      - name: Deploy
         run: |
           pwd
           ls ${{ github.workspace }}
-          echo "build java..."
+
+  test:
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+      - name: Test
+        run: |
+          pwd
+          ls ${{ github.workspace }}
