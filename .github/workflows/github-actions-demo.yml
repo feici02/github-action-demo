@@ -3,76 +3,17 @@ run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 
 jobs:
-
-  check_out:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - name: List files in the repository
-        run: |
-          pwd
-          ls ${{ github.workspace }}
-
-  build_taosx_and_agent:
-    runs-on: ubuntu-latest
-    needs: check_out
-    steps:
-      - name: Build taosx and taosx-agent
-        run: |
-          pwd
-          ls ${{ github.workspace }}
-
-  build_opc:
-    runs-on: ubuntu-latest
-    needs: check_out
-    steps:
-      - name: Build opc
-        run: |
-          pwd
-          ls ${{ github.workspace }}
-
-  build_mqtt:
-    runs-on: ubuntu-latest
-    needs: check_out
-    steps:
-      - name: Build mqtt
-        run: |
-          pwd
-          ls ${{ github.workspace }}
-
-  build_influxdb:
-    runs-on: ubuntu-latest
-    needs: check_out
-    steps:
-      - name: Build influxdb
-        run: |
-          pwd
-          ls ${{ github.workspace }}
-
-  build_opentsdb:
-    runs-on: ubuntu-latest
-    needs: check_out
-    steps:
-      - name: Build opentsdb
-        run: |
-          pwd
-          ls ${{ github.workspace }}
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: [build_taosx_and_agent, build_opc, build_mqtt, build_influxdb, build_opentsdb]
-    steps:
-      - name: Deploy
-        run: |
-          pwd
-          ls ${{ github.workspace }}
-
   test:
     runs-on: ubuntu-latest
-    needs: deploy
     steps:
       - name: Test
         run: |
-          pwd
-          ls ${{ github.workspace }}
+          curl -X POST -H "Content-Type: application/json" \
+          -d @- https://open.feishu.cn/open-apis/bot/v2/hook/ead5417f-20b9-425c-8ce7-f4b8dd008deb <<EOF
+          {
+            "msg_type": "text",
+            "content": {
+              "text": "abc\n123"
+            }
+          }
+          EOF
