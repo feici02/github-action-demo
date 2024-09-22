@@ -13,7 +13,10 @@ jobs:
           {
             "msg_type": "text",
             "content": {
-              "text": "abc\n123"
+              "text": |
+                PR Title: ${{ github.event.pull_request.title }}
+                PR Owner: ${{ github.event.pull_request.user.login }}
+
             }
           }
           EOF
