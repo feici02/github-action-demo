@@ -23,13 +23,6 @@ jobs:
             EOF
           }
 
-          PR_INFO=$(cat <<EOF
-          🚀 ${{ github.actor }} is testing out GitHub Actions 🚀
-          PR Title: ${{ github.event.pull_request.title }}
-          PR Owner: ${{ github.event.pull_request.user.login }}
-          Additional line 1
-          Additional line 2
-          EOF
-          )
+          PR_INFO="abc\n123"
 
           post_to_feishu "$PR_INFO"
