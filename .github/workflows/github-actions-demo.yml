@@ -9,7 +9,6 @@ jobs:
 
       - name: Test
         run: |
-          curl -X POST -H "Content-Type: application/json" \
           post_to_feishu() {
             local text="$1"
             curl -X POST -H "Content-Type: application/json" \
