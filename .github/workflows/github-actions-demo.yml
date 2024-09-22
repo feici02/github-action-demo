@@ -11,13 +11,13 @@ jobs:
         id: prepare
         run: |
           PR_INFO=$(cat <<EOF
-🚀 ${{ github.actor }} is testing out GitHub Actions 🚀
-PR Title: ${{ github.event.pull_request.title }}
-PR Owner: ${{ github.event.pull_request.user.login }}
-Additional line 1
-Additional line 2
-EOF
-)
+          🚀 ${{ github.actor }} is testing out GitHub Actions 🚀
+          PR Title: ${{ github.event.pull_request.title }}
+          PR Owner: ${{ github.event.pull_request.user.login }}
+          Additional line 1
+          Additional line 2
+          EOF
+          )
           echo "::set-output name=PR_INFO::$PR_INFO"
 
       - name: Test
