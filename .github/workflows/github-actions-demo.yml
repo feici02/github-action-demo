@@ -1,6 +1,8 @@
 name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+on:
+  pull_request
+  #push
 
 env:
   PR_TITLE: ${{ github.event.pull_request.title }}
@@ -27,8 +29,8 @@ jobs:
           EOF
           }
 
-          PR_INFO="PR_TITLE: $PR_TITLE
-          PR_URL: $PR_URL
+          PR_INFO="PR_TITLE: $PR_TITLE\n
+          PR_URL: $PR_URL\n
           PR_AUTHOR: $PR_AUTHOR"
 
           post_to_feishu "$PR_INFO"
