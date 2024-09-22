@@ -11,6 +11,11 @@ jobs:
         run: |
           function hello() {
             name="$1"
-            echo "Hello, $name!"
+            text=$(cat <<EOF
+            Hello, $name!
+            This is a multiline string.
+            EOF
+            )
+            echo "Hello, $text!"
           }
           hello "GitHub Actions"
