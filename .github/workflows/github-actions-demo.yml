@@ -12,9 +12,9 @@ jobs:
           function hello() {
             name="$1"
             text=$(cat <<EOF
-            Hello, $name!
-            This is a multiline string.
-            EOF
+          Hello, $name!
+          This is a multiline string.
+          EOF
             )
             echo "Hello, $text!"
           }
