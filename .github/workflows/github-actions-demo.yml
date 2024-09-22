@@ -6,6 +6,20 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      # in this step, prepare the message and save it to PR_INFO so that it can be sent to Feishu
+      - name: Prepare message
+        id: prepare
+        run: |
+          PR_INFO=$(cat <<EOF
+🚀 ${{ github.actor }} is testing out GitHub Actions 🚀
+PR Title: ${{ github.event.pull_request.title }}
+PR Owner: ${{ github.event.pull_request.user.login }}
+Additional line 1
+Additional line 2
+EOF
+)
+          echo "::set-output name=PR_INFO::$PR_INFO"
+
       - name: Test
         run: |
           curl -X POST -H "Content-Type: application/json" \
@@ -22,9 +36,4 @@ jobs:
             EOF
           }
 
-          PR_INFO=$(cat <<EOF
-          PR Title: ${{ github.event.pull_request.title }}
-          PR Owner: ${{ github.event.pull_request.user.login }}
-          EOF
-          
           post_to_feishu "$PR_INFO"
