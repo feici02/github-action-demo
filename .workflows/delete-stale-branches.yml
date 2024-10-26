@@ -1,0 +1,29 @@
+name: Delete Stale Branches
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # Runs daily at midnight
+
+jobs:
+  delete-stale-branches:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: List merged branches
+        id: list-merged-branches
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const mergedBranches = [];
+            const protectedBranches = context.github.rest.repos.listProtectedBranches({ owner: context.repo.owner, repo: context.repo.repo }).data.map(branch => branch.name);
+            const allBranches = context.github.rest.pulls.list({ owner: context.repo.owner, repo: context.repo.repo, state: 'closed' }).data.map(pr => pr.head.ref);
+            allBranches.forEach(branch => {
+              if (protectedBranches.includes(branch)) return;
+              const mergedCommits = context.github.rest.repos.listCommits({ owner: context.repo.owner, repo: context.repo.repo, sha: branch }).data;
+              if (mergedCommits.length > 0 && mergedCommits[0].merge_commit_sha) {
+                mergedBranches.push(branch);
+              }
+            });
+            core.setOutput('mergedBranches', JSON.stringify(mergedBranches));
