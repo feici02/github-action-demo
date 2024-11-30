@@ -1,0 +1,36 @@
+name: GitHub Actions Demo
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on:
+  pull_request
+  #push
+
+env:
+  PR_TITLE: ${{ github.event.pull_request.title }}
+  PR_URL: ${{ github.event.pull_request.html_url }}
+  PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Test
+        run: |
+          function post_to_feishu() {
+            local text="$1"
+            curl -X POST -H "Content-Type: application/json" \
+            -d @- https://open.feishu.cn/open-apis/bot/v2/hook/ead5417f-20b9-425c-8ce7-f4b8dd008deb <<EOF
+            {
+                "msg_type": "text",
+                "content": {
+                "text": "$text"
+                }
+            }
+          EOF
+          }
+
+          PR_INFO="PR_TITLE: $PR_TITLE\n
+          PR_URL: $PR_URL\n
+          PR_AUTHOR: $PR_AUTHOR"
+
+          post_to_feishu "$PR_INFO"
